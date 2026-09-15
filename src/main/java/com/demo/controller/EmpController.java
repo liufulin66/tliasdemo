@@ -3,6 +3,7 @@ package com.demo.controller;
 import lombok.extern.slf4j.Slf4j;
 import com.demo.pojo.Result;
 import com.demo.pojo.Emp;
+import com.demo.pojo.PageResult;
 import com.demo.service.EmpService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,18 @@ public class EmpController {
     private EmpService empService;
 
     // 查询全部员工
-    @GetMapping
+    @GetMapping("/all")
     public Result list() {
         log.info("查询全部员工的数据");
         return Result.success(empService.findAll());
+    }
+
+    // 分页查询员工
+    @GetMapping
+    public Result page(Integer page, Integer pageSize) {
+        log.info("分页查询员工: {}, {}", page, pageSize);
+        PageResult<Emp> pageResult = empService.page(page, pageSize);
+        return Result.success(pageResult);
     }
 
     // 根据 id 查询员工

@@ -56,7 +56,7 @@ public class EmpServiceImpl implements EmpService {
         long total = empMapper.count();
 
         //查询分页结果列表
-        Integer start = (page - 1) * 5;
+        Integer start = (page - 1) * pageSize;
         List<Emp> rows = empMapper.list(start, pageSize);
 
         return new PageResult<Emp>(total, rows);

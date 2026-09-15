@@ -2,12 +2,9 @@ package com.demo.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import com.demo.pojo.Result;
-import com.demo.pojo.Emp;
 import com.demo.pojo.EmpExpr;
-import com.demo.pojo.PageResult;
 import com.demo.service.EmpExprService;
 import com.demo.service.EmpService;
-import com.demo.service.impl.EmpServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,13 +62,5 @@ public class EmpExprController {
         log.info("删除经历: {}", id);
         empExprService.deleteById(id);
         return Result.success();
-    }
-
-    //分页查询
-    @GetMapping
-    public Result page(Integer page, Integer pageSize){
-        log.info("分页查询：{},{}", page, pageSize);
-        PageResult<Emp> pageResult = EmpServiceImpl.page(page, pageSize);
-        return Result.success(pageResult);
     }
 }

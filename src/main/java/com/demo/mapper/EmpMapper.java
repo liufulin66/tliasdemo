@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -35,10 +36,10 @@ public interface EmpMapper {
     int countByDeptId(Integer deptId);
 
     //查询总记录数
-    @Select ("select count(*) from emo e left join dept d on e.dept_id = d.id")
-    public Long count();
+    @Select("select count(*) from emp e left join dept d on e.dept_id = d.id")
+    Long count();
 
     //分页查询
-    @Select ("select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id order by e.update_time limit #{start}, #{pagSize}")
-    public List<Emp> list(Integer start, Integer pagSize);
+    @Select("select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id order by e.update_time limit #{start}, #{pageSize}")
+    List<Emp> list(@Param("start") Integer start, @Param("pageSize") Integer pageSize);
 }
