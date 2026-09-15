@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.demo.mapper.EmpMapper;
 import com.demo.pojo.Emp;
 import com.demo.pojo.PageResult;
@@ -52,12 +54,14 @@ public class EmpServiceImpl implements EmpService {
 
     @Override 
     public  PageResult<Emp> page(Integer page, Integer pageSize) {
-        //调用mapper接口查询总记录数
-        long total = empMapper.count();
+        //开启分页：紧跟其后的第一个查询会被自动改写为分页 SQL
+        PageHelper.startPage(page, pageSize);
 
-        //查询分页结果列表
-        Integer start = (page - 1) * pageSize;
-        List<Emp> rows = empMapper.list(start, pageSize);
+        //查询分页结果列表（SQL 中不再手写 limit）
+        List<Emp> rows = empMapper.list();
+
+        //总记录数由 PageHelper 一并查出，从查询结果中获取
+        long total = new PageInfo<>(rows).getTotal();
 
         return new PageResult<Emp>(total, rows);
     }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -35,11 +34,7 @@ public interface EmpMapper {
     @Select("select count(*) from emp where dept_id = #{deptId}")
     int countByDeptId(Integer deptId);
 
-    //查询总记录数
-    @Select("select count(*) from emp e left join dept d on e.dept_id = d.id")
-    Long count();
-
-    //分页查询
-    @Select("select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id order by e.update_time limit #{start}, #{pageSize}")
-    List<Emp> list(@Param("start") Integer start, @Param("pageSize") Integer pageSize);
+    //查询全部员工（分页由 PageHelper 在 Service 层控制，SQL 中不写 limit 与 count）
+    @Select("select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id order by e.update_time")
+    List<Emp> list();
 }

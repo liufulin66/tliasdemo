@@ -36,6 +36,13 @@
             <version>3.0.3</version>
         </dependency>
 
+        <!-- PageHelper 分页插件（2.x 对应 Spring Boot 3.x） -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
         <!-- MySQL 驱动，运行时才需要 -->
         <dependency>
             <groupId>com.mysql</groupId>
