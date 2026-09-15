@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/tlias
+    username: root
+    password: ${DB_PASSWORD}   # 通过环境变量注入，避免密码入仓库；本地运行时配置 DB_PASSWORD 环境变量
+
+mybatis:
+  configuration:
+    # 数据库下划线字段名自动映射为驼峰属性名（dept_name -> deptName）
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml   # 扫描 resources/mapper/ 下的 XML 映射文件
