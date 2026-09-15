@@ -33,4 +33,12 @@ public interface EmpMapper {
 
     @Select("select count(*) from emp where dept_id = #{deptId}")
     int countByDeptId(Integer deptId);
+
+    //查询总记录数
+    @Select ("select count(*) from emo e left join dept d on e.dept_id = d.id")
+    public Long count();
+
+    //分页查询
+    @Select ("select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id order by e.update_time limit #{start}, #{pagSize}")
+    public List<Emp> list(Integer start, Integer pagSize);
 }
