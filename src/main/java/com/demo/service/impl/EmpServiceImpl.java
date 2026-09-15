@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.demo.mapper.EmpMapper;
 import com.demo.pojo.Emp;
+import com.demo.pojo.PageResult;
 import com.demo.service.EmpService;
 
 @Service
 public class EmpServiceImpl implements EmpService {
 
     @Autowired
-    private EmpMapper empMapper;
+    private  EmpMapper empMapper;
 
     @Override
     public List<Emp> findAll() {
@@ -47,5 +48,17 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public int countByDeptId(Integer deptId) {
         return empMapper.countByDeptId(deptId);
+    }
+
+    @Override 
+    public  PageResult<Emp> page(Integer page, Integer pageSize) {
+        //调用mapper接口查询总记录数
+        long total = empMapper.count();
+
+        //查询分页结果列表
+        Integer start = (page - 1) * 5;
+        List<Emp> rows = empMapper.list(start, pageSize);
+
+        return new PageResult<Emp>(total, rows);
     }
 }
