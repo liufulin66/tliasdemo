@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.demo.mapper.EmpMapper;
 import com.demo.pojo.Emp;
+import com.demo.pojo.EmpQueryParam;
 import com.demo.pojo.PageResult;
 
 public interface EmpService {
@@ -24,5 +25,5 @@ public interface EmpService {
     /** 统计某部门下的员工数量（用于删除部门前的校验） */
     int countByDeptId(Integer deptId);
 
-    PageResult<Emp> page(Integer page, Integer pageSize);
+    PageResult<Emp> page(EmpQueryParam param);
 }

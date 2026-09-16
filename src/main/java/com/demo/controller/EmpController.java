@@ -3,7 +3,7 @@ package com.demo.controller;
 import lombok.extern.slf4j.Slf4j;
 import com.demo.pojo.Result;
 import com.demo.pojo.Emp;
-import com.demo.pojo.PageResult;
+import com.demo.pojo.EmpQueryParam;
 import com.demo.service.EmpService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +31,11 @@ public class EmpController {
         return Result.success(empService.findAll());
     }
 
-    // 分页查询员工
+    // 条件分页查询员工
     @GetMapping
-    public Result page(Integer page, Integer pageSize) {
-        log.info("分页查询员工: {}, {}", page, pageSize);
-        PageResult<Emp> pageResult = empService.page(page, pageSize);
-        return Result.success(pageResult);
+    public Result page(EmpQueryParam param) {
+        log.info("条件分页查询员工: {}", param);
+        return Result.success(empService.page(param));
     }
 
     // 根据 id 查询员工

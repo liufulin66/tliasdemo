@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.demo.pojo.Emp;
+import com.demo.pojo.EmpQueryParam;
 
 @Mapper
 public interface EmpMapper {
@@ -34,7 +35,6 @@ public interface EmpMapper {
     @Select("select count(*) from emp where dept_id = #{deptId}")
     int countByDeptId(Integer deptId);
 
-    //查询全部员工（分页由 PageHelper 在 Service 层控制，SQL 中不写 limit 与 count）
-    @Select("select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id order by e.update_time")
-    List<Emp> list();
+    //条件分页查询（动态 SQL 写在 resources/mapper/EmpMapper.xml 中，分页由 PageHelper 控制）
+    List<Emp> list(EmpQueryParam param);
 }

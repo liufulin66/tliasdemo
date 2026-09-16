@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.demo.mapper.EmpMapper;
 import com.demo.pojo.Emp;
+import com.demo.pojo.EmpQueryParam;
 import com.demo.pojo.PageResult;
 import com.demo.service.EmpService;
 
@@ -53,12 +54,12 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override 
-    public  PageResult<Emp> page(Integer page, Integer pageSize) {
+    public  PageResult<Emp> page(EmpQueryParam param) {
         //开启分页：紧跟其后的第一个查询会被自动改写为分页 SQL
-        PageHelper.startPage(page, pageSize);
+        PageHelper.startPage(param.getPage(), param.getPageSize());
 
-        //查询分页结果列表（SQL 中不再手写 limit）
-        List<Emp> rows = empMapper.list();
+        //条件分页查询当页数据（条件为空时该条件不会被拼进 SQL）
+        List<Emp> rows = empMapper.list(param);
 
         //总记录数由 PageHelper 一并查出，从查询结果中获取
         long total = new PageInfo<>(rows).getTotal();
