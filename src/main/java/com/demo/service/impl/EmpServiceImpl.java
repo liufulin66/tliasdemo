@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.demo.mapper.EmpExprMapper;
 import com.demo.mapper.EmpMapper;
 import com.demo.pojo.Emp;
+import com.demo.pojo.EmpExpr;
 import com.demo.pojo.EmpQueryParam;
 import com.demo.pojo.PageResult;
 import com.demo.service.EmpService;
@@ -19,6 +22,9 @@ public class EmpServiceImpl implements EmpService {
 
     @Autowired
     private  EmpMapper empMapper;
+
+    @Autowired
+    private EmpExprMapper empExprMapper;
 
     @Override
     public List<Emp> findAll() {
@@ -31,10 +37,24 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
+    @Transactional
     public void add(Emp emp) {
-        emp.setCreateTime(LocalDateTime.now());
-        emp.setUpdateTime(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        emp.setCreateTime(now);
+        emp.setUpdateTime(now);
+        // 先插入员工，自增主键由 @Options 回填到 emp.id
         empMapper.insert(emp);
+
+        // 再批量插入工作经历：补全外键 empId 与时间字段
+        List<EmpExpr> exprList = emp.getExprList();
+        if (exprList != null && !exprList.isEmpty()) {
+            for (EmpExpr expr : exprList) {
+                expr.setEmpId(emp.getId());
+                expr.setCreateTime(now);
+                expr.setUpdateTime(now);
+            }
+            empExprMapper.insertBatch(exprList);
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 对应数据库 tlias 库中的 emp 表（员工）
@@ -25,4 +26,7 @@ public class Emp {
 
     // 非表字段：联表查询时携带的部门名称
     private String deptName;
+
+    // 非表字段：新增员工时随请求一起提交的工作经历，落库到 emp_expr 表
+    private List<EmpExpr> exprList;
 }

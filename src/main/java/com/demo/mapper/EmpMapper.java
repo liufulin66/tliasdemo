@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -23,6 +24,8 @@ public interface EmpMapper {
 
     @Insert("insert into emp(username, password, name, gender, phone, image, job, entry_date, dept_id, create_time, update_time) " +
             "values(#{username}, #{password}, #{name}, #{gender}, #{phone}, #{image}, #{job}, #{entryDate}, #{deptId}, #{createTime}, #{updateTime})")
+    // 回填自增主键到 emp.id，供后续写 emp_expr.emp_id 使用
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(Emp emp);
 
     @Update("update emp set username = #{username}, password = #{password}, name = #{name}, gender = #{gender}, phone = #{phone}, " +

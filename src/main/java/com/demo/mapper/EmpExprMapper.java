@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -29,4 +30,7 @@ public interface EmpExprMapper {
 
     @Delete("delete from emp_expr where id = #{id}")
     void deleteById(Integer id);
+
+    // 批量插入（动态 SQL 写在 resources/mapper/EmpExprMapper.xml 中）
+    void insertBatch(@Param("exprList") List<EmpExpr> exprList);
 }

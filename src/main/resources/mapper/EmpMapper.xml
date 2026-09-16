@@ -21,7 +21,7 @@
                 and e.entry_date &lt;= #{end}
             </if>
         </where>
-        order by e.update_time
+        order by e.update_time desc, e.id desc 
     </select>
 
 </mapper>
